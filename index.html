@@ -16,35 +16,39 @@
 <body>
 
 
-<table id="grid-basic" class="table table-condensed table-hover table-striped">
+<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+        Добавить здание <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a href="#">Военная часть</a></li>
+        <li class="disabled"><a href="#">Военный завод</a></li>
+        <li class="disabled"><a href="#">Ангар</a></li>
+    </ul>
+</div>
+
+
+<table id="grid-basic" class="table table-bordered table-hover table-striped table-condensed">
+    <caption>Потоки военных зданий и их производительность</caption>
     <thead>
     <tr>
-        <th data-column-id="domain">Domain</th>
-        <th data-column-id="status" data-align="center" data-header-align="center">Status</th>
-        <th data-column-id="emails" data-formatter="emails" data-align="center" data-header-align="center">Emails</th>
-        <th data-column-id="sendTemplates">Send Template</th>
-        <th data-column-id="lastSent" data-formatter="lastSent" data-align="center" data-header-align="center">Last Sent</th>
-        <th data-column-id="blockedTill" data-formatter="blockedTill" data-align="center" data-header-align="center">Blocked Till</th>
-        <th data-column-id="actions" data-formatter="actions" data-align="center" data-header-align="center">Actions</th>
+        <th data-column-id="structure" data-formatter="structure" data-header-align="center">Здание</th>
+        <th data-column-id="prodUnit" data-formatter="prodUnit" data-header-align="center">Производимый юнит</th>
+        <th data-column-id="prodUnitPerHour" data-formatter="prodUnitPerHour" data-header-align="center">Юнитов/сутки</th>
+        <th data-column-id="food" data-formatter="food">Еды/Час</th>
+        <th data-column-id="wood" data-formatter="wood">Дева/Час</th>
+        <th data-column-id="metal" data-formatter="metal">Металла/Час</th>
+        <th data-column-id="sulfur" data-formatter="sulfur">Серы/Час</th>
+        <th data-column-id="goldPerHour" data-formatter="goldPerHour">Золота/Час</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td>test.com</td>
-        <td>NOT PARSED</td>
-        <td>13</td>
+        <td>militaryUnit</td>
+        <td>infantryman</td>
         <td></td>
-        <td>2017-09-10 13:56:00</td>
-        <td>2017-09-13 13:12:00</td>
         <td></td>
-    </tr>
-    <tr>
-        <td>test.com</td>
-        <td>BLOCKED 60 DAYS</td>
-        <td>0</td>
         <td></td>
-        <td>2017-08-05 13:56:00</td>
-        <td>2017-11-15 15:55:00</td>
         <td></td>
     </tr>
     </tbody>
@@ -54,7 +58,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">List of emails for domain: <strong>test.com</strong></h4>
             </div>
             <div class="modal-body">
@@ -68,8 +73,34 @@
 </div>
 
 <style>
-    [data-column-id="actions"]{
+    body {
+        padding: 20px;
+    }
+
+    table {
+        margin: 20px 0;
+    }
+
+    .table > tbody > tr > td {
+        vertical-align: middle;
+    }
+
+    table select {
+        width: 100%;
+        padding: 6px;
+    }
+
+    [data-column-id="structure"] {
+        width: 250px;
+    }
+
+    [data-column-id="actions"],
+    [data-column-id="prodUnit"] {
         width: 180px;
+    }
+
+    [data-column-id="prodUnitPerHour"] {
+        width: 130px;
     }
 </style>
 

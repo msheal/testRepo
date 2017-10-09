@@ -23,6 +23,7 @@ const militaryUnit = [
 
 const militaryUnitUnits = {
     infantryman: {
+        name: 'Пехотинец',
         time: 9, //hours
         costs: {
             food: 400,
@@ -34,6 +35,7 @@ const militaryUnitUnits = {
         }
     },
     sniper: {
+        name: 'Снайпер',
         time: 20,
         costs: {
             food: 500,
@@ -46,6 +48,7 @@ const militaryUnitUnits = {
         }
     },
     grenadeLauncher: {
+        name: 'Гранатометчик',
         time: 12,
         costs: {
             food: 250,
@@ -61,54 +64,98 @@ const militaryUnitUnits = {
 
 
 $(document).ready(function () {
-    const grid = $("#grid-basic");
+    const table = $("#grid-basic");
 
-    setTimeout(()=>{
-        let data = grid.data('.rs.jquery.bootgrid').rows;
+    //setTimeout(()=>{
+    //    let data = grid.data('.rs.jquery.bootgrid').rows;
+    //
+    //    data.push({
+    //        domain: 0,
+    //        status: 2,
+    //        emails: 1,
+    //        sendTemplates: 1,
+    //        lastSent: 1,
+    //        blockedTill: 1,
+    //        actions: 1});
+    //
+    //        grid.bootgrid('reload')
+    //
+    //}, 1000);
 
-        data.push({
-            domain: 1,
-            status: 1,
-            emails: 1,
-            sendTemplates: 1,
-            lastSent: 1,
-            blockedTill: 1,
-            actions: 1});
-
-            grid.bootgrid('reload')
-
-    }, 1000);
-
-    grid.bootgrid({
+    table.bootgrid({
             ajax: false,
             navigation: 0,
             formatters: {
-                emails: (col, row) => {
-                    const count = row.emails;
-                    const current = 'info@thewowgallery.co.uk';
-                    if (count > 0) {
-                        return `<div data-toggle="tooltip" title="Current email: ${current}" class="btn btn-info showEmails">Total: ${count}</div>`
-                    } else {
-                        return `<div class="btn btn-default disabled">No emails</div>`
+                actions: (col, row) => {
+                    return `<div class="btn btn-danger">Remove</div>`
+                },
+                structure: (col, row) => {
+                    let options = "";
+                    if (row.structure === 'militaryUnit'){
+                        militaryUnit.map((item, index) => {
+                            options += `<option value="${item}">Военная часть ${index + 1}ур (${parseInt(item * 100)}%)</option>`
+                        })
+                    }
+                    return `<select class="selectedStructure">${options}</select>`
+                },
+                prodUnit: (col, row) => {
+                    let options = "";
+                    if (row.prodUnit === 'infantryman'){
+                        for (unit in militaryUnitUnits){
+                            options += `<option value="${unit}">${militaryUnitUnits[unit].name}</option>`
+                        }
+                    }
+                    return `<select class="selectedUnit">${options}</select>`
+                },
+                prodUnitPerHour: (col, row) => {
+                    return '<span class="prodUnitPerHour">' +(24 / militaryUnitUnits[row.prodUnit].time  * militaryUnit[0]).toFixed(2) + '</span>';
+                },
+                food: (col, row) => {
+                    if (row.prodUnit === 'infantryman'){
+                        return militaryUnitUnits.infantryman.costs.food
                     }
                 },
-                lastSent: (col, row) => {
-                    let remaining = moment.utc(moment(moment.now()).diff(moment(row.lastSent, "DD-MM-YYYY HH:mm:ss")));
-                    return `<span data-toggle="tooltip" title="${remaining.format("DD-MM-YYYY HH:mm:ss")}">Send ${remaining.format('D')} days ${remaining.format('H')} hours ago</span>`
+                wood: (col, row) => {
+                    if (row.prodUnit === 'infantryman'){
+                        return militaryUnitUnits.infantryman.costs.food
+                    }
                 },
-                blockedTill: (col, row) => {
-                    let remaining = moment.utc(moment(row.blockedTill, "DD-MM-YYYY HH:mm:ss").diff(moment(row.lastSent, "DD-MM-YYYY HH:mm:ss")));
-                    return `Remaining ${remaining.format('D')} days ${remaining.format('H')} hours`
+                metal: (col, row) => {
+                    if (row.prodUnit === 'infantryman'){
+                        return militaryUnitUnits.infantryman.costs.food
+                    }
                 },
-                actions: (col, row) => {
-                    return `<div style="margin-right: 5px;" class="btn btn-danger">Block</div>
-                            <div class="btn btn-danger">Remove</div>`
+                sulfur: (col, row) => {
+                    if (row.prodUnit === 'infantryman'){
+                        return militaryUnitUnits.infantryman.costs.food
+                    }
+                },
+                goldPerHour: (col, row) => {
+                    return 'Gold amount per hour'
                 }
             }
         })
         .on("loaded.rs.jquery.bootgrid", function (e) {
             $('[data-toggle="tooltip"]').tooltip();
 
-            $('.showEmails').on('click', () => $('#emails').modal('show'))
+            $('.showEmails').on('click', () => $('#emails').modal('show'));
+
+            table.find('.prodUnitPerHour').each(function(){
+                const row = $(this).closest('tr');
+
+                $(this).text(calcProdUnitPerHour(row))
+            });
+
+            table.find('.selectedUnit, .selectedStructure').on('change', function () {
+                const row = $(this).closest('tr');
+                row.find('.prodUnitPerHour').text(calcProdUnitPerHour(row));
+            })
         });
 });
+
+function calcProdUnitPerHour(row){
+    const structureProdSpeed = row.find('.selectedStructure :selected').val();
+    const selectedUnit = row.find('.selectedUnit :selected').val();
+
+    return (24 / militaryUnitUnits[selectedUnit].time  * structureProdSpeed).toFixed(2);
+}
