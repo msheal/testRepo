@@ -35,11 +35,11 @@
         <th data-column-id="structure" data-formatter="structure" data-header-align="center">Здание</th>
         <th data-column-id="prodUnit" data-formatter="prodUnit" data-header-align="center">Производимый юнит</th>
         <th data-column-id="prodUnitPerHour" data-formatter="prodUnitPerHour" data-header-align="center">Юнитов/сутки</th>
-        <th data-column-id="food" data-formatter="food">Еды/Час</th>
-        <th data-column-id="wood" data-formatter="wood">Дева/Час</th>
-        <th data-column-id="metal" data-formatter="metal">Металла/Час</th>
-        <th data-column-id="sulfur" data-formatter="sulfur">Серы/Час</th>
-        <th data-column-id="goldPerHour" data-formatter="goldPerHour">Золота/Час</th>
+        <th data-column-id="food" data-formatter="food">Еда/Час</th>
+        <th data-column-id="wood" data-formatter="wood">Дерео/Час</th>
+        <th data-column-id="metal" data-formatter="metal">Металл/Час</th>
+        <th data-column-id="sulfur" data-formatter="sulfur">Сера/Час</th>
+        <th data-column-id="goldPerHour" data-formatter="goldPerHour">Золото/Час</th>
     </tr>
     </thead>
     <tbody>
@@ -51,54 +51,54 @@
         <td></td>
         <td></td>
     </tr>
+    <tr>
+        <td>militaryUnit</td>
+        <td>infantryman</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+
     </tbody>
 </table>
 
-<div id="emails" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">List of emails for domain: <strong>test.com</strong></h4>
-            </div>
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+<p class="bg-danger" style="padding: 15px;text-align: center;">Демка, тапками не закидывать! Пни Чудесного Фабриканта если хочешь продолжения</p>
+<ul class="list-group">
+    <li style="color: #fff;background-color: #337ab7;" class="list-group-item">Что планируется добавить:</li>
+    <li class="list-group-item">Стоимость ресурсов сделать динамической (сейчас гос цена)</li>
+    <li class="list-group-item">Возможность добавлять/удалять военздания</li>
+    <li class="list-group-item">Учёт бонусов чудес (типа царь-пушки, бранденбургских ворот и т.д.)</li>
+    <li class="list-group-item">Сохранение результатов</li>
+    <li class="list-group-item">Юниты для ранних эпох</li>
+    <li class="list-group-item">Отдельная табличк с расчетом пробивной силы разрушителей</li>
+    <li class="list-group-item">???</li>
+</ul>
 
 <style>
     body {
         padding: 20px;
     }
-
     table {
         margin: 20px 0;
     }
-
     .table > tbody > tr > td {
         vertical-align: middle;
     }
-
     table select {
         width: 100%;
         padding: 6px;
     }
-
+    table .totalRow {
+        font-weight: bold;
+    }
     [data-column-id="structure"] {
         width: 250px;
     }
-
     [data-column-id="actions"],
     [data-column-id="prodUnit"] {
         width: 180px;
     }
-
     [data-column-id="prodUnitPerHour"] {
         width: 130px;
     }

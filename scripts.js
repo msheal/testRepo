@@ -130,16 +130,12 @@ $(document).ready(function () {
         .on("loaded.rs.jquery.bootgrid", function (e) {
             $('[data-toggle="tooltip"]').tooltip();
 
-            //table.find('.prodUnitPerHour').each(function(){
-            //    const row = $(this).closest('tr');
-            //
-            //    $(this).text(calcProdUnitPerHour(row))
-            //});
+
 
             table.find('.selectedUnit, .selectedStructure').on('change', function () {
                 const row = $(this).closest('tr');
                 calcProdUnit(row)
-            })
+            }).trigger('change')
         });
 });
 
@@ -163,4 +159,40 @@ function calcProdUnit(row){
     row.find('.metal').text(metal);
     row.find('.sulfur').text(sulfur);
     row.find('.goldPerHour').text(goldPerHour.toFixed(2));
+
+    let table = row.closest('table').find('tbody');
+    calcTotal(table)
+}
+
+function calcTotal(table){
+    let prodUnitPerHour = 0;
+    let food = 0;
+    let wood = 0;
+    let metal = 0;
+    let sulfur = 0;
+    let goldPerHour = 0;
+
+    table.find('.totalRow').remove();
+
+    table.find('tr').each(function(){
+        prodUnitPerHour += parseFloat($(this).find('.prodUnitPerHour').text());
+        food += parseFloat($(this).find('.food').text());
+        wood += parseFloat($(this).find('.wood').text());
+        metal += parseFloat($(this).find('.metal').text());
+        sulfur += parseFloat($(this).find('.sulfur').text());
+        goldPerHour += parseFloat($(this).find('.goldPerHour').text());
+
+    });
+
+    let totalRow = `<tr class="totalRow">
+        <td colspan="2" class="text-right">Total:</td>
+        <td>${prodUnitPerHour.toFixed(2)}</td>
+        <td>${food.toFixed(2)}</td>
+        <td>${wood.toFixed(2)}</td>
+        <td>${metal.toFixed(2)}</td>
+        <td>${sulfur.toFixed(2)}</td>
+        <td>${goldPerHour.toFixed(2)}</td>
+    </tr>`;
+
+    table.append(totalRow)
 }
