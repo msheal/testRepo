@@ -111,51 +111,56 @@ $(document).ready(function () {
                     return '<span class="prodUnitPerHour">' +(24 / militaryUnitUnits[row.prodUnit].time  * militaryUnit[0]).toFixed(2) + '</span>';
                 },
                 food: (col, row) => {
-                    if (row.prodUnit === 'infantryman'){
-                        return militaryUnitUnits.infantryman.costs.food
-                    }
+                    return '<span class="food"></span>'
                 },
                 wood: (col, row) => {
-                    if (row.prodUnit === 'infantryman'){
-                        return militaryUnitUnits.infantryman.costs.food
-                    }
+                    return '<span class="wood"></span>'
                 },
                 metal: (col, row) => {
-                    if (row.prodUnit === 'infantryman'){
-                        return militaryUnitUnits.infantryman.costs.food
-                    }
+                    return '<span class="metal"></span>'
                 },
                 sulfur: (col, row) => {
-                    if (row.prodUnit === 'infantryman'){
-                        return militaryUnitUnits.infantryman.costs.food
-                    }
+                    return '<span class="sulfur"></span>'
                 },
                 goldPerHour: (col, row) => {
-                    return 'Gold amount per hour'
+                    return '<span class="goldPerHour"></span>'
                 }
             }
         })
         .on("loaded.rs.jquery.bootgrid", function (e) {
             $('[data-toggle="tooltip"]').tooltip();
 
-            $('.showEmails').on('click', () => $('#emails').modal('show'));
-
-            table.find('.prodUnitPerHour').each(function(){
-                const row = $(this).closest('tr');
-
-                $(this).text(calcProdUnitPerHour(row))
-            });
+            //table.find('.prodUnitPerHour').each(function(){
+            //    const row = $(this).closest('tr');
+            //
+            //    $(this).text(calcProdUnitPerHour(row))
+            //});
 
             table.find('.selectedUnit, .selectedStructure').on('change', function () {
                 const row = $(this).closest('tr');
-                row.find('.prodUnitPerHour').text(calcProdUnitPerHour(row));
+                calcProdUnit(row)
             })
         });
 });
 
-function calcProdUnitPerHour(row){
+function calcProdUnit(row){
     const structureProdSpeed = row.find('.selectedStructure :selected').val();
     const selectedUnit = row.find('.selectedUnit :selected').val();
+    let {time,
+        costs: {food = 0, wood = 0, metal = 0, sulfur = 0},
+        upkeep} =  militaryUnitUnits[selectedUnit];
+    const unitsPerDay = (24 / time  * structureProdSpeed).toFixed(2);
 
-    return (24 / militaryUnitUnits[selectedUnit].time  * structureProdSpeed).toFixed(2);
+    food = (food * unitsPerDay / 24).toFixed(2);
+    wood = (wood * unitsPerDay / 24).toFixed(2);
+    metal = (metal * unitsPerDay / 24).toFixed(2);
+    sulfur = (sulfur * unitsPerDay / 24).toFixed(2);
+    let goldPerHour = (food * 240 + wood * 240 + metal * 550 + sulfur * 600) / 1000;
+
+    row.find('.prodUnitPerHour').text(unitsPerDay);
+    row.find('.food').text(food);
+    row.find('.wood').text(wood);
+    row.find('.metal').text(metal);
+    row.find('.sulfur').text(sulfur);
+    row.find('.goldPerHour').text(goldPerHour.toFixed(2));
 }
