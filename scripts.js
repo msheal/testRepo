@@ -64,10 +64,15 @@ const militaryUnitUnits = {
 
 
 $(document).ready(function () {
-    $('body').on('change', '.selectedUnit, .selectedStructure', function () {
-        const row = $(this).closest('tr');
-        calcProdUnit(row)
-    });
+
+    $('body')
+        .on('change', '.selectedUnit, .selectedStructure', function () {
+            const row = $(this).closest('tr');
+            calcProdUnit(row)
+        })
+        .on('click', '.cloneRow', function () {
+            cloneRow($(this))
+        });
 
     $('#structureCreate').find('.dropdown-menu a').on('click', function(e){
         e.preventDefault();
@@ -108,7 +113,17 @@ function createBuilding(type){
     </tr>`);
 
     table.append(row);
-    row.find('.actions i').tooltip();
+    calcProdUnit(row);
+}
+
+function cloneRow(el){
+    let row = el.closest('tr').clone();
+
+    row.insertAfter(el.closest('tr'));
+
+    el.closest('tr').find("select").each(function(i) {
+        row.find("select").eq(i).val($(this).val());
+    });
 
     calcProdUnit(row);
 }
@@ -135,7 +150,12 @@ function calcProdUnit(row){
     row.find('.sulfur').text(sulfur);
     row.find('.goldPerHour').text(goldPerHour.toFixed(2));
 
-    calcTotal(table)
+
+    row.find('.actions i').tooltip().on('click', function () {
+        $(this).tooltip('hide')
+    });
+
+    calcTotal(table);
 }
 
 function calcTotal(table){
