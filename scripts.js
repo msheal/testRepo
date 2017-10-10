@@ -64,82 +64,55 @@ const militaryUnitUnits = {
 
 
 $(document).ready(function () {
-    const table = $("#grid-basic");
+    $('body').on('change', '.selectedUnit, .selectedStructure', function () {
+        const row = $(this).closest('tr');
+        calcProdUnit(row)
+    });
 
-    //setTimeout(()=>{
-    //    let data = grid.data('.rs.jquery.bootgrid').rows;
-    //
-    //    data.push({
-    //        domain: 0,
-    //        status: 2,
-    //        emails: 1,
-    //        sendTemplates: 1,
-    //        lastSent: 1,
-    //        blockedTill: 1,
-    //        actions: 1});
-    //
-    //        grid.bootgrid('reload')
-    //
-    //}, 1000);
+    $('#structureCreate').find('.dropdown-menu a').on('click', function(e){
+        e.preventDefault();
 
-    table.bootgrid({
-            ajax: false,
-            navigation: 0,
-            formatters: {
-                actions: (col, row) => {
-                    return `<div class="btn btn-danger">Remove</div>`
-                },
-                structure: (col, row) => {
-                    let options = "";
-                    if (row.structure === 'militaryUnit'){
-                        militaryUnit.map((item, index) => {
-                            options += `<option value="${item}">Военная часть ${index + 1}ур (${parseInt(item * 100)}%)</option>`
-                        })
-                    }
-                    return `<select class="selectedStructure">${options}</select>`
-                },
-                prodUnit: (col, row) => {
-                    let options = "";
-                    if (row.prodUnit === 'infantryman'){
-                        for (unit in militaryUnitUnits){
-                            options += `<option value="${unit}">${militaryUnitUnits[unit].name}</option>`
-                        }
-                    }
-                    return `<select class="selectedUnit">${options}</select>`
-                },
-                prodUnitPerHour: (col, row) => {
-                    return '<span class="prodUnitPerHour">' +(24 / militaryUnitUnits[row.prodUnit].time  * militaryUnit[0]).toFixed(2) + '</span>';
-                },
-                food: (col, row) => {
-                    return '<span class="food"></span>'
-                },
-                wood: (col, row) => {
-                    return '<span class="wood"></span>'
-                },
-                metal: (col, row) => {
-                    return '<span class="metal"></span>'
-                },
-                sulfur: (col, row) => {
-                    return '<span class="sulfur"></span>'
-                },
-                goldPerHour: (col, row) => {
-                    return '<span class="goldPerHour"></span>'
-                }
-            }
-        })
-        .on("loaded.rs.jquery.bootgrid", function (e) {
-            $('[data-toggle="tooltip"]').tooltip();
+        $(this).attr('data-type')
+            ? createBuilding($(this).attr('data-type'))
+            : false
 
-
-
-            table.find('.selectedUnit, .selectedStructure').on('change', function () {
-                const row = $(this).closest('tr');
-                calcProdUnit(row)
-            }).trigger('change')
-        });
+    })
 });
 
+function createBuilding(type){
+    const table = $("#grid");
+    let structureOptions = "";
+    let unitOptions = "";
+
+    switch (type){
+        case 'militaryUnit':
+            militaryUnit.map((item, index) => {
+                structureOptions += `<option value="${item}">Военная часть ${index + 1}ур (${parseInt(item * 100)}%)</option>`
+            });
+            for (unit in militaryUnitUnits){
+                unitOptions += `<option value="${unit}">${militaryUnitUnits[unit].name}</option>`
+            }
+            break;
+    }
+
+    let row = $(`<tr>
+        <td><select class="selectedStructure">${structureOptions}</select></td>
+        <td><select class="selectedUnit">${unitOptions}</select></td>
+        <td class="prodUnitPerHour"></td>
+        <td class="food"></td>
+        <td class="wood"></td>
+        <td class="metal"></td>
+        <td class="sulfur"></td>
+        <td class="goldPerHour"></td>
+    </tr>`);
+
+    table.append(row);
+
+    calcProdUnit(row);
+}
+
 function calcProdUnit(row){
+    const table = $("#grid");
     const structureProdSpeed = row.find('.selectedStructure :selected').val();
     const selectedUnit = row.find('.selectedUnit :selected').val();
     let {time,
@@ -160,11 +133,12 @@ function calcProdUnit(row){
     row.find('.sulfur').text(sulfur);
     row.find('.goldPerHour').text(goldPerHour.toFixed(2));
 
-    let table = row.closest('table').find('tbody');
     calcTotal(table)
 }
 
 function calcTotal(table){
+    const tbody = table.find('tbody');
+
     let prodUnitPerHour = 0;
     let food = 0;
     let wood = 0;
@@ -172,9 +146,9 @@ function calcTotal(table){
     let sulfur = 0;
     let goldPerHour = 0;
 
-    table.find('.totalRow').remove();
+    tbody.find('.totalRow').remove();
 
-    table.find('tr').each(function(){
+    tbody.find('tr').each(function(){
         prodUnitPerHour += parseFloat($(this).find('.prodUnitPerHour').text());
         food += parseFloat($(this).find('.food').text());
         wood += parseFloat($(this).find('.wood').text());
@@ -194,5 +168,5 @@ function calcTotal(table){
         <td>${goldPerHour.toFixed(2)}</td>
     </tr>`;
 
-    table.append(totalRow)
+    tbody.append(totalRow)
 }

@@ -5,62 +5,41 @@
     <title>Title</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
     <script src="scripts.js"></script>
 </head>
 <body>
 
 
-<div class="dropdown">
+<div id="structureCreate" class="dropdown">
     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
         Добавить здание <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-        <li><a href="#">Военная часть</a></li>
+        <li><a data-type="militaryUnit" href="#">Военная часть</a></li>
         <li class="disabled"><a href="#">Военный завод</a></li>
         <li class="disabled"><a href="#">Ангар</a></li>
     </ul>
 </div>
 
-
-<table id="grid-basic" class="table table-bordered table-hover table-striped table-condensed">
+<table id="grid" class="table table-bordered table-hover table-striped table-condensed">
     <caption>Потоки военных зданий и их производительность</caption>
     <thead>
     <tr>
-        <th data-column-id="structure" data-formatter="structure" data-header-align="center">Здание</th>
-        <th data-column-id="prodUnit" data-formatter="prodUnit" data-header-align="center">Производимый юнит</th>
-        <th data-column-id="prodUnitPerHour" data-formatter="prodUnitPerHour" data-header-align="center">Юнитов/сутки</th>
-        <th data-column-id="food" data-formatter="food">Еда/Час</th>
-        <th data-column-id="wood" data-formatter="wood">Дерео/Час</th>
-        <th data-column-id="metal" data-formatter="metal">Металл/Час</th>
-        <th data-column-id="sulfur" data-formatter="sulfur">Сера/Час</th>
-        <th data-column-id="goldPerHour" data-formatter="goldPerHour">Золото/Час</th>
+        <th class="text-center structure">Здание</th>
+        <th class="text-center prodUnit">Производимый юнит</th>
+        <th class="prodUnitPerHour">Юнитов/сутки</th>
+        <th>Еда/Час</th>
+        <th>Дерео/Час</th>
+        <th>Металл/Час</th>
+        <th>Сера/Час</th>
+        <th>Золото/Час</th>
     </tr>
     </thead>
-    <tbody>
-    <tr>
-        <td>militaryUnit</td>
-        <td>infantryman</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>militaryUnit</td>
-        <td>infantryman</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-
-    </tbody>
+    <tbody></tbody>
 </table>
 
 <p class="bg-danger" style="padding: 15px;text-align: center;">Демка, тапками не закидывать! Пни Чудесного Фабриканта если хочешь продолжения</p>
@@ -92,14 +71,13 @@
     table .totalRow {
         font-weight: bold;
     }
-    [data-column-id="structure"] {
+    th.structure {
         width: 250px;
     }
-    [data-column-id="actions"],
-    [data-column-id="prodUnit"] {
+    th.prodUnit {
         width: 180px;
     }
-    [data-column-id="prodUnitPerHour"] {
+    th.prodUnitPerHour {
         width: 130px;
     }
 </style>
