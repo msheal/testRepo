@@ -5,6 +5,8 @@
     <title>Title</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -37,9 +39,14 @@
         <th>Металл/Час</th>
         <th>Сера/Час</th>
         <th>Золото/Час</th>
+        <th class="text-center actions">Действия</th>
     </tr>
     </thead>
-    <tbody></tbody>
+    <tbody>
+        <tr class="totalRow">
+            <td colspan="9" style="text-align: center; padding: 20px;">Сначала нужно создать здание</td>
+        </tr>
+    </tbody>
 </table>
 
 <p class="bg-danger" style="padding: 15px;text-align: center;">Демка, тапками не закидывать! Пни Чудесного Фабриканта если хочешь продолжения</p>
@@ -50,37 +57,9 @@
     <li class="list-group-item">Учёт бонусов чудес (типа царь-пушки, бранденбургских ворот и т.д.)</li>
     <li class="list-group-item">Сохранение результатов (возможно, для нескольких городов)</li>
     <li class="list-group-item">Юниты для ранних эпох</li>
-    <li class="list-group-item">Отдельная табличк с расчетом пробивной силы разрушителей</li>
+    <li class="list-group-item">Отдельная табличка с расчетом пробивной силы разрушителей</li>
     <li class="list-group-item">???</li>
 </ul>
-
-<style>
-    body {
-        padding: 20px;
-    }
-    table {
-        margin: 20px 0;
-    }
-    .table > tbody > tr > td {
-        vertical-align: middle;
-    }
-    table select {
-        width: 100%;
-        padding: 6px;
-    }
-    table .totalRow {
-        font-weight: bold;
-    }
-    th.structure {
-        width: 250px;
-    }
-    th.prodUnit {
-        width: 180px;
-    }
-    th.prodUnitPerHour {
-        width: 130px;
-    }
-</style>
 
 </body>
 </html>

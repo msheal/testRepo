@@ -1,0 +1,45 @@
+body {
+  padding: 20px;
+}
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+table {
+  margin: 20px 0;
+}
+table th.prodUnit {
+  width: 180px;
+}
+table th.structure {
+  width: 250px;
+}
+table th.prodUnitPerHour {
+  width: 130px;
+}
+table th.prodUnit {
+  width: 180px;
+}
+table th.actions {
+  width: 100px;
+}
+table select {
+  width: 100%;
+  padding: 6px;
+}
+table span.actions {
+  width: auto;
+  display: flex;
+  justify-content: space-around;
+  font-size: 1.6em;
+}
+table span.actions .cloneRow {
+  cursor: pointer;
+  color: green;
+}
+table span.actions .removeRow {
+  cursor: pointer;
+  color: red;
+}
+table .totalRow {
+  font-weight: bold;
+}

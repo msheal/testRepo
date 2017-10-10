@@ -104,9 +104,11 @@ function createBuilding(type){
         <td class="metal"></td>
         <td class="sulfur"></td>
         <td class="goldPerHour"></td>
+        <td><span class="actions"><i class="fa fa-clone cloneRow" title="Клонировать ряд"></i><i class="fa fa-trash removeRow" title="Удалить"></i></span></td>
     </tr>`);
 
     table.append(row);
+    row.find('.actions i').tooltip();
 
     calcProdUnit(row);
 }

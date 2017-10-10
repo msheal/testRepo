@@ -1,0 +1,48 @@
+body {
+  padding: 20px;
+}
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+table {
+  margin: 20px 0;
+  th{
+    &.prodUnit {
+      width: 180px;
+    }
+    &.structure {
+      width: 250px;
+    }
+    &.prodUnitPerHour {
+      width: 130px;
+    }
+    &.prodUnit {
+      width: 180px;
+    }
+    &.actions {
+      width: 100px;
+    }
+  }
+  select {
+    width: 100%;
+    padding: 6px;
+  }
+  span.actions{
+    width: auto;
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.6em;
+    .cloneRow{
+      cursor: pointer;
+      color: green;
+    }
+    .removeRow{
+      cursor: pointer;
+      color: red;
+    }
+  }
+  .totalRow {
+    font-weight: bold;
+  }
+}
