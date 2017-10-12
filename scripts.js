@@ -458,7 +458,7 @@ $(document).ready(function () {
 });
 
 function loadData(){
-    let data = JSON.parse(localStorage.getItem('tableData'));
+    let data = JSON.parse(localStorage.getItem('tableData')) || [];
 
     data.map(({structure, structureLevel, unit}) => {
         createBuilding(structure, structureLevel, unit)
