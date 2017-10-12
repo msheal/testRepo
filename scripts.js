@@ -467,7 +467,7 @@ function loadData(){
 
 //level and unit used on load data from local storage
 function createBuilding(type, level, unit){
-    const table = $("#grid");
+    const table = $("#grid tbody");
     let structureOptions = "";
     let unitOptions = "";
     let unitsObject = {};
