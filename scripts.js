@@ -584,8 +584,10 @@ function calcProdUnit(row){
 }
 
 function updateLabels(){
-    const rows = $('#grid').find('tr');
+    const rows = $('#grid').find('tbody tr').not('.totalRow');
     const labels = $('#structureCreate .dropdown-menu a');
+
+    labels.find('.label').remove();
 
     labels.each(function () {
         const labelType = $(this).attr('data-type');
@@ -597,7 +599,6 @@ function updateLabels(){
             }
         });
 
-        $(this).find('.label').remove();
         if (counter != 0){
             $(this).append(`<span class="label label-primary">${counter}шт.</span>`);
         }
@@ -632,8 +633,6 @@ function calcTotal(table){
 
         const {structure, structureLevel, unit} = $(this).data();
         saveData.push({structure, structureLevel, unit});
-
-        updateLabels(structure);
     });
 
     localStorage.setItem('tableData', JSON.stringify(saveData));
@@ -650,5 +649,7 @@ function calcTotal(table){
         <td>${goldPerHour.toFixed(2)}</td>
     </tr>`;
 
-    tbody.append(totalRow)
+    tbody.append(totalRow);
+
+    updateLabels();
 }
