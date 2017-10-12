@@ -598,7 +598,9 @@ function updateLabels(){
         });
 
         $(this).find('.label').remove();
-        $(this).append(`<span class="label label-primary">${counter}шт.</span>`);
+        if (counter != 0){
+            $(this).append(`<span class="label label-primary">${counter}шт.</span>`);
+        }
     });
 }
 
