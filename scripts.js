@@ -20,7 +20,6 @@ const militaryUnit = [
     26.50,
     27.88
 ];
-
 const militaryPlant = [
     2.00,
     2.32,
@@ -42,6 +41,28 @@ const militaryPlant = [
     13.19,
     14.09,
     15.00
+];
+const hangar = [
+    1.00,
+    1.32,
+    1.69,
+    2.08,
+    2.50,
+    2.92,
+    3.37,
+    3.82,
+    4.29,
+    4.77,
+    5.26,
+    5.76,
+    6.26,
+    6.78,
+    7.30,
+    7.82,
+    8.36,
+    8.90,
+    9.45,
+    10.00
 ];
 
 const militaryPlantUnits = {
@@ -200,7 +221,6 @@ const militaryPlantUnits = {
         }
     }
 };
-
 const militaryUnitUnits = {
     gunner: {
         name: 'Автоматчик',
@@ -293,6 +313,122 @@ const militaryUnitUnits = {
         }
     }
 };
+const hangarUnits = {
+    airship: {
+        name: 'Дирижабль',
+        time: 40,
+        costs: {
+            population: 30,
+            food: 5000,
+            wood: 3000,
+            metal: 200,
+            fuel: 3000
+        }
+    },
+    lightFighter: {
+        name: 'Легкий истребитель',
+        time: 18,
+        costs: {
+            population: 12,
+            food: 1000,
+            wood: 1500,
+            metal: 500,
+            fuel: 1000
+        }
+    },
+    lightBomber: {
+        name: 'Легкий бомбардировщик',
+        time: 22,
+        costs: {
+            population: 15,
+            food: 1500,
+            wood: 2200,
+            metal: 600,
+            fuel: 1500,
+            sulfur: 500
+        }
+    },
+    diveMaster: {
+        name: 'Пикировщик',
+        time: 22,
+        costs: {
+            population: 15,
+            food: 1500,
+            wood: 2000,
+            metal: 800,
+            fuel: 1500
+        }
+    },
+    balloon: {
+        name: 'Аэростат',
+        time: 20,
+        costs: {
+            population: 10,
+            food: 2500,
+            wood: 1800,
+            metal: 150,
+            fuel: 1200
+        }
+    },
+    fighter: {
+        name: 'Истребитель',
+        time: 35,
+        costs: {
+            population: 20,
+            food: 1800,
+            wood: 2200,
+            metal: 750,
+            fuel: 2000
+        }
+    },
+    bomber: {
+        name: 'Бомбардировщик',
+        time: 42,
+        costs: {
+            population: 25,
+            food: 2500,
+            wood: 3500,
+            metal: 1000,
+            fuel: 2700,
+            sulfur: 900
+        }
+    },
+    attackPlane: {
+        name: 'Штурмовик',
+        time: 42,
+        costs: {
+            population: 25,
+            food: 2500,
+            wood: 3500,
+            metal: 1200,
+            fuel: 2800
+        }
+    },
+    jetFighter: {
+        name: 'Реактивный истребитель',
+        time: 60,
+        costs: {
+            population: 35,
+            food: 4000,
+            wood: 5000,
+            metal: 2000,
+            fuel: 4500
+        }
+    },
+    jetBomber: {
+        name: 'Реактивный бомбардировщик',
+        time: 70,
+        costs: {
+            population: 40,
+            food: 5000,
+            wood: 6500,
+            metal: 3000,
+            fuel: 5000,
+            sulfur: 2000
+        }
+    },
+};
+
 
 
 $(document).ready(function () {
@@ -357,6 +493,17 @@ function createBuilding(type, level, unit){
                 unitOptions += `<option value="${_unit}" ${selected}>${militaryPlantUnits[_unit].name}</option>`
             }
             unitsObject = militaryPlantUnits;
+            break;
+        case 'hangar':
+            hangar.map((item, index) => {
+                const selected = (level - 1) === index ? 'selected="selected"' : "";
+                structureOptions += `<option value="${item}" data-level="${index + 1}" ${selected}>Ангар ${index + 1}ур (${parseInt(item * 100)}%)</option>`
+            });
+            for (_unit in hangarUnits){
+                const selected = _unit === unit ? 'selected="selected"' : "";
+                unitOptions += `<option value="${_unit}" ${selected}>${hangarUnits[_unit].name}</option>`
+            }
+            unitsObject = hangarUnits;
             break;
     }
 
