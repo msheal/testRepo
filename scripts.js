@@ -198,7 +198,7 @@ const militaryPlantUnits = {
             metal: 2500,
             sulfur: 1500
         }
-    },
+    }
 };
 
 const militaryUnitUnits = {
@@ -297,6 +297,8 @@ const militaryUnitUnits = {
 
 $(document).ready(function () {
 
+    loadData();
+
     $('body')
         .on('change', '.selectedUnit, .selectedStructure', function () {
             const row = $(this).closest('tr');
@@ -319,7 +321,16 @@ $(document).ready(function () {
     })
 });
 
-function createBuilding(type){
+function loadData(){
+    let data = JSON.parse(localStorage.getItem('tableData'));
+
+    data.map(({structure, structureLevel, unit}) => {
+        createBuilding(structure, structureLevel, unit)
+    })
+}
+
+//level and unit used on load data from local storage
+function createBuilding(type, level, unit){
     const table = $("#grid");
     let structureOptions = "";
     let unitOptions = "";
@@ -327,19 +338,23 @@ function createBuilding(type){
     switch (type){
         case 'militaryUnit':
             militaryUnit.map((item, index) => {
-                structureOptions += `<option value="${item}">Военная часть ${index + 1}ур (${parseInt(item * 100)}%)</option>`
+                const selected = (level - 1) === index ? 'selected="selected"' : "";
+                structureOptions += `<option value="${item}" data-level="${index + 1}" ${selected}>Военная часть ${index + 1}ур (${parseInt(item * 100)}%)</option>`
             });
-            for (unit in militaryUnitUnits){
-                unitOptions += `<option value="${unit}">${militaryUnitUnits[unit].name}</option>`
+            for (_unit in militaryUnitUnits){
+                const selected = _unit === unit ? 'selected="selected"' : "";
+                unitOptions += `<option value="${_unit}" ${selected}>${militaryUnitUnits[_unit].name}</option>`
             }
             unitsObject = militaryUnitUnits;
             break;
         case 'militaryPlant':
             militaryPlant.map((item, index) => {
-                structureOptions += `<option value="${item}">Военный завод ${index + 1}ур (${parseInt(item * 100)}%)</option>`
+                const selected = (level - 1) === index ? 'selected="selected"' : "";
+                structureOptions += `<option value="${item}" data-level="${index + 1}" ${selected}>Военный завод ${index + 1}ур (${parseInt(item * 100)}%)</option>`
             });
-            for (unit in militaryPlantUnits){
-                unitOptions += `<option value="${unit}">${militaryPlantUnits[unit].name}</option>`
+            for (_unit in militaryPlantUnits){
+                const selected = _unit === unit ? 'selected="selected"' : "";
+                unitOptions += `<option value="${_unit}" ${selected}>${militaryPlantUnits[_unit].name}</option>`
             }
             unitsObject = militaryPlantUnits;
             break;
@@ -359,7 +374,7 @@ function createBuilding(type){
         <td><span class="actions"><i class="fa fa-clone cloneRow" title="Клонировать ряд"></i><i class="fa fa-trash removeRow" title="Удалить"></i></span></td>
     </tr>`);
 
-    row.data('type', unitsObject);
+    row.data({type: unitsObject, structure: type});
 
     table.append(row);
     calcProdUnit(row);
@@ -369,7 +384,7 @@ function cloneRow(el){
     let row = el.closest('tr').clone();
 
     row.insertAfter(el.closest('tr'));
-    row.data('type', el.closest('tr').data('type'));
+    row.data(el.closest('tr').data());
 
     el.closest('tr').find("select").each(function(i) {
         row.find("select").eq(i).val($(this).val());
@@ -387,6 +402,7 @@ function removeRow(el){
 function calcProdUnit(row){
     const table = $("#grid");
     const units = row.data('type');
+    const structureLevel = row.find('.selectedStructure :selected').attr('data-level');
     const structureProdSpeed = row.find('.selectedStructure :selected').val();
     const selectedUnit = row.find('.selectedUnit :selected').val();
     let {time,
@@ -416,6 +432,7 @@ function calcProdUnit(row){
         $(this).tooltip('hide')
     });
 
+    row.data({unit: selectedUnit, structureLevel});
     calcTotal(table);
 }
 
@@ -431,6 +448,8 @@ function calcTotal(table){
     let fuel = 0;
     let goldPerHour = 0;
 
+    let saveData = [];
+
     tbody.find('.totalRow').remove();
 
     tbody.find('tr').each(function(){
@@ -443,7 +462,11 @@ function calcTotal(table){
         fuel += parseFloat($(this).find('.fuel').text());
         goldPerHour += parseFloat($(this).find('.goldPerHour').text());
 
+        const {structure, structureLevel, unit} = $(this).data();
+        saveData.push({structure, structureLevel, unit});
     });
+
+    localStorage.setItem('tableData', JSON.stringify(saveData));
 
     let totalRow = `<tr class="totalRow">
         <td colspan="2" class="text-right">Total:</td>
