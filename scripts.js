@@ -583,6 +583,25 @@ function calcProdUnit(row){
     calcTotal(table);
 }
 
+function updateLabels(){
+    const rows = $('#grid').find('tr');
+    const labels = $('#structureCreate .dropdown-menu a');
+
+    labels.each(function () {
+        const labelType = $(this).attr('data-type');
+        let counter = 0;
+
+        rows.each(function () {
+            if ($(this).data('structure') === labelType){
+                counter++
+            }
+        });
+
+        $(this).find('.label').remove();
+        $(this).append(`<span class="label label-primary">${counter}шт.</span>`);
+    });
+}
+
 function calcTotal(table){
     const tbody = table.find('tbody');
 
@@ -611,6 +630,8 @@ function calcTotal(table){
 
         const {structure, structureLevel, unit} = $(this).data();
         saveData.push({structure, structureLevel, unit});
+
+        updateLabels(structure);
     });
 
     localStorage.setItem('tableData', JSON.stringify(saveData));
