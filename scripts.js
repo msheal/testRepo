@@ -668,6 +668,7 @@ function calcTotal(table){
         <td>${sulfur.toFixed(2)}</td>
         <td>${fuel.toFixed(2)}</td>
         <td>${goldPerHour.toFixed(2)}</td>
+        <td></td>
     </tr>`;
 
     tbody.append(totalRow);
