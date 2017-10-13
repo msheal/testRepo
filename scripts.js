@@ -446,6 +446,14 @@ $(document).ready(function () {
                 input.val() === "" ? input.addClass('warning') : input.removeClass('warning');
                 calcProdUnit($(this))
             });
+
+            let prices = [];
+            $('#prices').find('input').each(function(){
+                const name = $(this).attr('name');
+                const value = $(this).val();
+                prices.push({name, value})
+            });
+            localStorage.setItem('prices', JSON.stringify(prices));
         })
         .on('click', '.cloneRow', function () {
             cloneRow($(this))
@@ -456,17 +464,18 @@ $(document).ready(function () {
 
     $('#structureCreate').find('.dropdown-menu a').on('click', function(e){
         e.preventDefault();
-
-        $(this).attr('data-type')
-            ? createBuilding($(this).attr('data-type'))
-            : false
-
+        $(this).attr('data-type') ? createBuilding($(this).attr('data-type')) : false
     })
 });
 
 function loadData(){
-    let data = JSON.parse(localStorage.getItem('tableData'));
+    let prices = JSON.parse(localStorage.getItem('prices')) || [];
+    prices.map(({name, value}) => {
+        $('#prices').find(`input[name="${name}"]`).val(parseInt(value))
+    });
 
+
+    let data = JSON.parse(localStorage.getItem('tableData'));
     data.map(({structure, structureLevel, unit}) => {
         createBuilding(structure, structureLevel, unit)
     })
