@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="resources.css">
     <link rel="stylesheet" href="styles.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -29,12 +30,32 @@
 </div>
 
 
-<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#prices">
     Цены
 </button>
-<div class="collapse" id="collapseExample">
+<div class="collapse" id="prices">
     <div class="well">
-        Coming soon!
+        <p><i class="fa fa-exclamation-triangle text-warning"></i> Цены из расчета на 1000 единиц</p>
+        <div class="input-group">
+            <span class="input-group-addon"><span class="sprite food"></span></span>
+            <input type="number" min="0" name="food" value="240" class="form-control" placeholder="Еда">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><span class="sprite wood"></span></span>
+            <input type="number" min="0" name="wood" value="240" class="form-control" placeholder="Дерево">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><span class="sprite metal"></span></span>
+            <input type="number" min="0" name="metal" value="550" class="form-control" placeholder="Металл">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><span class="sprite sulfur"></span></span>
+            <input type="number" min="0" name="sulfur" value="600" class="form-control" placeholder="Сера">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><span class="sprite fuel"></span></span>
+            <input type="number" min="0" name="fuel" value="600" class="form-control" placeholder="Топливо">
+        </div>
     </div>
 </div>
 
