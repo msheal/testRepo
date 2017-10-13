@@ -440,6 +440,21 @@ $(document).ready(function () {
             const row = $(this).closest('tr');
             calcProdUnit(row)
         })
+        .on('input', '#prices input', function () {
+            const input = $(this);
+            $("#grid tbody tr").not('.totalRow').each(function(){
+                input.val() === "" ? input.addClass('warning') : input.removeClass('warning');
+                calcProdUnit($(this))
+            });
+
+            let prices = [];
+            $('#prices').find('input').each(function(){
+                const name = $(this).attr('name');
+                const value = $(this).val();
+                prices.push({name, value})
+            });
+            localStorage.setItem('prices', JSON.stringify(prices));
+        })
         .on('click', '.cloneRow', function () {
             cloneRow($(this))
         })
@@ -449,18 +464,17 @@ $(document).ready(function () {
 
     $('#structureCreate').find('.dropdown-menu a').on('click', function(e){
         e.preventDefault();
-
-        $(this).attr('data-type')
-            ? createBuilding($(this).attr('data-type'))
-            : false
-
+        $(this).attr('data-type') ? createBuilding($(this).attr('data-type')) : false
     })
 });
 
 function loadData(){
-    let data = JSON.parse(localStorage.getItem('tableData')) || [];
     let prices = JSON.parse(localStorage.getItem('prices')) || [];
+    prices.map(({name, value}) => {
+        $('#prices').find(`input[name="${name}"]`).val(parseInt(value))
+    });
 
+    let data = JSON.parse(localStorage.getItem('tableData'));
     data.map(({structure, structureLevel, unit}) => {
         createBuilding(structure, structureLevel, unit)
     })
@@ -562,6 +576,8 @@ function calcProdUnit(row){
     const prices = {};
     pricesBox.find('input').each(function () {
         prices[$(this).attr('name')] = parseInt($(this).val()) || 0;
+    });
+
     population = (population * unitsPerDay).toFixed(2);
     food = (food * unitsPerDay / 24).toFixed(2);
     wood = (wood * unitsPerDay / 24).toFixed(2);
