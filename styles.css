@@ -13,8 +13,26 @@ body {
 .dropdown-menu > li > a span {
   margin-left: 10px;
 }
+#structureCreate {
+  margin-right: 10px;
+}
+#prices .well {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+#prices .well > p {
+  width: 100%;
+}
+#prices .well .input-group {
+  width: calc(20% - 20px);
+  min-width: 140px;
+}
+#prices .well input.warning {
+  background-color: #ffcdcd;
+}
 table {
-  margin: 20px 0;
+  margin: 0 0 20px;
 }
 table th.prodUnit {
   width: 180px;

@@ -459,6 +459,7 @@ $(document).ready(function () {
 
 function loadData(){
     let data = JSON.parse(localStorage.getItem('tableData')) || [];
+    let prices = JSON.parse(localStorage.getItem('prices')) || [];
 
     data.map(({structure, structureLevel, unit}) => {
         createBuilding(structure, structureLevel, unit)
@@ -467,7 +468,7 @@ function loadData(){
 
 //level and unit used on load data from local storage
 function createBuilding(type, level, unit){
-    const table = $("#grid");
+    const table = $("#grid tbody");
     let structureOptions = "";
     let unitOptions = "";
     let unitsObject = {};
@@ -557,13 +558,17 @@ function calcProdUnit(row){
         } =  units[selectedUnit];
     const unitsPerDay = (24 / time  * structureProdSpeed).toFixed(2);
 
+    const pricesBox = $('#prices');
+    const prices = {};
+    pricesBox.find('input').each(function () {
+        prices[$(this).attr('name')] = parseInt($(this).val()) || 0;
     population = (population * unitsPerDay).toFixed(2);
     food = (food * unitsPerDay / 24).toFixed(2);
     wood = (wood * unitsPerDay / 24).toFixed(2);
     metal = (metal * unitsPerDay / 24).toFixed(2);
     sulfur = (sulfur * unitsPerDay / 24).toFixed(2);
     fuel = (fuel * unitsPerDay / 24).toFixed(2);
-    let goldPerHour = (food * 240 + wood * 240 + metal * 550 + sulfur * 600 + fuel * 600) / 1000;
+    let goldPerHour = (food * prices.food + wood * prices.wood + metal * prices.metal + sulfur * prices.sulfur + fuel * prices.fuel) / 1000;
 
     row.find('.population').text(population);
     row.find('.prodUnitPerHour').text(unitsPerDay);
