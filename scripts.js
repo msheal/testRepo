@@ -474,7 +474,7 @@ function loadData(){
         $('#prices').find(`input[name="${name}"]`).val(parseInt(value))
     });
 
-    let data = JSON.parse(localStorage.getItem('tableData'));
+    let data = JSON.parse(localStorage.getItem('tableData')) || [];
     data.map(({structure, structureLevel, unit}) => {
         createBuilding(structure, structureLevel, unit)
     })
